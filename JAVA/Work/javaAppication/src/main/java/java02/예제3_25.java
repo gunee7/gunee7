@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class 예제3_25 {
     public static void main(String [] args ) {
         Scanner scanner = new Scanner(System.in);
-        
+      
         char ch = ' ';
         System.out.printf(" 문자를 하나 입력하세요");
         

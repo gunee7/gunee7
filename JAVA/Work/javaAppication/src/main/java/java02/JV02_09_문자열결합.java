@@ -4,6 +4,7 @@ public class JV02_09_문자열결합 {
     public static void main(String[] args) {
         int i = 10, j =20;
         int sum = i + j;
+        //출력 : 더하기 : 10+ 20 = 30
         System.out.println("더하기: " + i + "+" + j + "=" + sum );
         
         String s1 = "Hello";

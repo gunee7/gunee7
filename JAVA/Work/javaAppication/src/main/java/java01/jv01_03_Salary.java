@@ -3,20 +3,18 @@ package java01;
 import java.util.Scanner;
 
 public class jv01_03_Salary {
-    public static void main(String [] args) {
-        int salary =0;
-        int deposit =0;
+    public static void main(String[] args) {
         
-        Scanner keyboard = new Scanner(System.in);
-        System.out.print("월급을 입력하시오:");
+        int salary = 0; // 월급
+        int deposit = 0; // 저축액
         
-        salary = keyboard.nextInt();  
+        Scanner keyboard = new Scanner(System.in); // 키보드와 프로그램 연결
+        System.out.println("월급을 입력하시오:");
+        salary = keyboard.nextInt(); // 값을 입력 받아 salart 공간에 저장
         
-        deposit = 10*12*salary;
+        deposit = 10 * 12 * salary;
         
-        System.out.println("10년 동안의 저축액; " + deposit);
-        
-        
+        System.out.println("10년동안의 저축액:" + deposit);
         
     }
- }
+}

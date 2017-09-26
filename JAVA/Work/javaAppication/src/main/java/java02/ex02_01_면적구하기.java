@@ -8,7 +8,7 @@ public class ex02_01_면적구하기 {
         int h = 5;
         int area = w*h;
         int perimeter = 2*(w+h);
-        
+ 
         Scanner keyboard=new Scanner(System.in);
         
         System.out.println("가로 : " );
@@ -18,9 +18,8 @@ public class ex02_01_면적구하기 {
         h = keyboard.nextInt();
         
         area = w*h;
-        System.out.println("사각형의 넓이 = " +area);
         perimeter = 2*(w+h);
-               
+        System.out.println("사각형의 넓이 = " +area);    
         System.out.println("사각형의 둘레 = " +perimeter);
     }
 }

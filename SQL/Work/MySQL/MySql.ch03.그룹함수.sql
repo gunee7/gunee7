@@ -10,28 +10,29 @@
 -- 전체 직원수를 출력하시오
 
 -- emp 테이블을 부서별로 그룹화 하시오
-
+select count( * ) from emp ;
 
 -- 직원의 급여(sal)를 출력하되 백 단위에서 반올림하기
 
 -- 모든 직원의 급여총액(sum), 급여평균(avg), 최대급여(max), 최소급여(min) 구하기
+select sum(sal), avg(sal), max(sal), min(sal) from emp;
 
+-- 문제 emp 테이블의 총 데이터 갯수는?18
+select count(*) from emp ;
 
--- emp 테이블의 총 데이터 갯수는?
-
-
--- ename 중복 제거후 count. 17개
-
-
+-- ename 중복 제거후 갯수를 구하시오 count. 17.개count _ distinct결합예제
+select count(distinct ename) from emp
+select distinct count( ename) from emp
 -- 직원들의 커미션(comm) 총액 구하기
+select comm from emp where comm is not null;
+select sum(comm) from emp ;
 
-
--- 커미션(comm)을 받는 직원의 수를 구하기. 3개
-
+-- 커미션(comm)을 받는 직원의 수를 구하기. 4개
+select comm from emp where comm is not null;
 
 -- 전체 직원의 수와 커미션(comm)을 받는 직원의 수를 구하기. 어려움.
-
-
+select count(*), count(comm) from emp ;
+select count(*), as전체직원수, count(comm) as 커미션직원수 from emp;
 
 -- @@@@@@@@@@@@@@
 -- group by 절
@@ -47,82 +48,107 @@
 -- -----------------------------------
 -- a. 전체 직원중에서 최대급여와 최소급여를 출력하시오
 -- -----------------------------------
-
+select count(*), max(sal), min(sal) from emp;
 -- -----------------------------------
--- b. deptno가 10인 부서의 최대, 최소급여 출력하시
+-- b. emp테이블에서 deptno가 10인 직원의최대, 최소급여 출력하시
 -- -----------------------------------
-
+select max(sal), min(sal) from emp where deptno=10 ;
 
 -- -----------------------------------
 -- c. 부서별 최대, 최소 급여 구하기
 -- -----------------------------------
+select distinct deptno prom emp order by deptno asc;
 
 -- c.1 union을 이용하는 방법
--- deptn0 = 10 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
--- deptn0 = 20 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
--- deptn0 = 21 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
--- deptn0 = 30 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
--- deptn0 = 31 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+-- deptno = 10 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+-- deptno = 20 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+-- deptno = 21 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+-- deptno = 30 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+-- deptno = 31 인 직원중에서 급여(sal)의 최대, 최소를 구하시오
+
+select max(sal), min(sal) from emp where deptno=10
+union
+select max(sal), min(sal) from emp where deptno=20
+union
+select max(sal), min(sal) from emp where deptno=21
+union
+select max(sal), min(sal) from emp where deptno=30
+union
+select max(sal), min(sal) from emp where deptno=31;
 
 -- c.2 group by를 이용하는 방법
 
-
+select deptno, max(sal), min(sal) from emp group by deptno;
 
 
 -- -----------------------------------
--- 중복되지 않는 직책(job)별 직원수를 출력하시오
--- 1. 모든 데이터를 출력하되 직책(job)을 기준으로 오름차순으로 정렬 하시오.
+-- emp 테이블에서 중복되지 않는 직책(job)별 직원수를 출력하시오
+-- 1. 모든 데이터를  직책(job)을 기준으로 오름차순으로 정렬 하시오.
 -- 2. 직책(job)별 직원수를 출력하시오
 -- -----------------------------------
-
+select job, count(job) from emp group by job order by job asc ;
 
 
 
 
 -- -----------------------------------
--- 부서별(deptno)로 직원수와 커미션(comm)을 받는 직원수를 
+-- 부서별(deptno)로 직원수와 커미션(comm)을 받는 직원수를 출력하되
 -- 사원번호(deptno) 오름차순으로 출력하시오
+-- 실행결과 ; 부서번호, 부서별직원수, 부서별커미션받는직원수
 -- -----------------------------------
-select deptno,count(comm)
-  from emp
-group by deptno
-order by deptno asc ;
 
-
+select deptno, count(*),count(comm) from emp group by deptno order by deptno asc;
 
 
 -- @@@@@@@@@@@@@@
 -- having 절
 -- @@@@@@@@@@@@@@
-
+-- 그룹핑된 데이터에서 검색할 때 사용
+-- group by 절과 항상 같이 사용되어야 함
+-- 단독 사용 불가
+-- @@@@@@@@@@@@@@
 
 -- -----------------------------------
 -- 부서별 평균 급여(sal)와 부서번호(deptno) 출력하시오.
 -- -----------------------------------
+select deptno, avg(sal) 
+from emp 
+group by deptno 
 
 
 -- -----------------------------------
 -- 부서별 급여 평균이 500이상인 부서 번호와 급여 평균 구하기
--- 1. 부서별로 부서번호와 급여평균 구하기
+-- 1. 부서별로 부서번호와 급여평균avg(sal) 구하여 출력하시오
 -- 2. 그룹핑된 데이터에서 급여 평균이 500이상인 데이터만 재검색
 -- -----------------------------------
 
+select deptno, avg(sal) 
+from emp 
+group by deptno 
+having avg(sal) >=500;
 
 
 -- -----------------------------------
--- 부서번호(deptno)가 10, 20, 30인 부서중에서 
--- 부서별 부서번호와 급여(sal)평균 출력하시오
--- 부서별 급여평균이 500이상인 부서번호와 급여평균 구하기
--- 위의 데이터를 부서번호 오름차순으로 정렬하시오. 
--- 
+-- 부서번호(deptno)가 10, 20, 30인 부서중에서 ==>where절사용
+-- 부서별 부서번호와 급여(sal)평균 출력하시오 ==>group by절 사용
+-- 부서별 급여평균이 500이상인 부서번호와 급여평균 구하기==>having사용
+-- 위의 데이터를 부서번호 오름차순으로 정렬하시오. ==>order by사용
+
+-- 문제
 -- 부서번호(deptno)가 10, 20, 30인 --> where
 -- 부서별                          --> group by
--- 부서번호와 급여(sal)평균 출력   --> select
 -- 부서별 급여평균이 500이상       --> having
+-- 부서번호와 오름차순으로 정렬 ==>order by사용
+-- 부서번호와 급여(sal)평균 출력   --> select
 -- 
 -- deptno=20 만 출력되면 정상. 1개
 -- -----------------------------------
-
+select deptno, avg(sal)
+from emp
+where deptno in(10,20,30)
+group by deptno
+having avg(sal) >=500
+order by deptno asc;
 
 
 -- -----------------------------------
@@ -136,17 +162,39 @@ order by deptno asc ;
 -- '사원'을 제외              --> where
 -- 직급(job)별                --> group by
 -- 급여 총액이 1000 이상      --> having
--- 급여총액 순으로 정렬하시오 --> order by
+-- 급여총액 순으로 오름차순으로 정렬하시오 --> order by
 -- -----------------------------------
+
+select job,sum(sal)
+from emp 
+where job !='사원'
+group by job
+having sum(sal) >=1000
+order by sum(sal) asc;
+
 
 
 -- -----------------------------------
 -- 문제 2:  
--- 가장 최근에 입사한 직원의 입사일과 이름을 구하시오. "추신수 출력"
+-- 가장 최근에 입사한 직원의 입사일(hirdate)과 이름(ename)을 구하시오. "추신수 출력"
 -- 2.1 oracle의 rowid나 rownum을 흉내내는 방법
--- 2.2 limit 를 이용하는 방법
+-- 2.2 mysql에서 limit 를 이용하는 방법
 -- -----------------------------------
+select max(hiredate)
+from emp
+where 
+group by 
+having 
+order by 
 
+
+select ename, job,sal
+from emp
+where ename("기")
+group by ename in(250,300,500); 
+ 
+having ename("기")
+order by 
 
 -- -----------------------------------
 -- 문제 3:  
@@ -154,7 +202,22 @@ order by deptno asc ;
 -- 3.1 oracle의 rowid나 rownum을 흉내내는 방법
 -- 3.2 top이나 limit을 이용하는 방법
 -- -----------------------------------
+select hiredate, ename  
+from emp
+order by hiredate desc;
 
+select hiredate, ename  
+from emp
+order by hiredate desc limit 0, 10;
+
+
+select ename, sal
+from emp 
+where ename LIKE '%기%'
+where sal in(250,300,500);
+group by 
+having 
+order by
 
 
 

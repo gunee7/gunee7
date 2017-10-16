@@ -22,63 +22,74 @@
 
 
 -- DEPT 테이블에서 모든 컬럼의 데이터를 조회하시오.
-
+select * from dept ;
 
 -- DEPT 테이블에서  deptno, dname 컬럼의 데이터만 출력하시오.
-
+select deptno, dname from dept ;
 
 -- EMP 테이블에서 JOB, ENAME 컬럼만 출력하시오.
-
+select job, ename from emp ;
 
 -- EMP 테이블에서 모든 컬럼의 데이터만 출력하시오.
-
+select * from emp ;
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- 컬럼에 별칭(별명) 주기
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
--- AS로 컬럼에 별칭 부여하기. job 컬럼에는 직책을 , enname 컬럼에 이름이라는 별칭을 붙여 출력하시오.
+-- AS로 컬럼에 별칭 부여하기. emp 테이블에서 job 컬럼에는 직책을 , enname 컬럼에 이름이라는 별칭을 붙여 출력하시오.
+select job as 직책, ename as 이름 from emp ;
 
 -- AS없이 컬럼에 별칭 부여하기. job 컬럼에는 직책을 , enname 컬럼에 이름이라는 별칭을 붙여 출력하시오.
 
 -- '' 로 별칭 부여하기. job 컬럼에는  "aa//aa"를 , enname 컬럼에는 "nick -+name" 이라는 별칭을 붙여 출력하시오.
-
+select job 'aa//aa', ename 'nick-+name' from emp ;
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- null 처리를 위해서는 ifnull() 함수를 사용해야 한다
 -- @@@@@@@@@@@@@@@@@@@@@@@@
-  
--- emp 테이블에서 이름과 mgr 값을 출력하시오. 
--- 단, mgr이 null 이면 0으로 바꾸어 출력하시오.
+select ifnull(1,0);
+select ifnull(null,0);
 
+-- emp 테이블에서 emame이름과 mgr 값을 출력하시오. 
+-- 단, mgr이 null 이면 0으로 바꾸어 출력하시오.
+select ename, ifnull(mgr,0)from emp;
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- 중복 제거 - DISTINCT
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
--- 중복되는 ename 을 제거하고 ename 만 출력하시오. 18개
-
+-- emp테이블에서 ename만 출력하되 중복되는 ename 만 출력하시오. 18개
+select distinct ename from emp;
 
 
 -- emp 테이블의 deptno 값이 중복되는 것을 제거하여 출력하시오. 17개
-
-
+select deptno from emp order by deptno ;
+select distinct deptno from emp order by deptno ;
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- 컬럼 연결,  문자열 연결  
 --  concat( 컬럼1  , 컬럼2  ) 
 --  concat( 컬럼1  , 컬럼2 , 컬럼3, 컬럼4   ) 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
+
+-- A and B를 출력하시오
+select 'A and b' ;
+
+-- concat을 이용하여
+select concat('A', 'and', 'B' ;
+
 -- 김사랑 조회하기
+select ename, job from emp where ename = '김사랑' ;
 
 -- '김사랑의 직급은 직원입니다' 출력하기
 -- concat(ename, '의 직급은 ', job, '입니다')
-
+select concat(ename,'의 직급은', job, '입니다') from emp where ename = '김사랑' ;
 
 -- '김사랑의 직급은 직원입니다' 출력하는 컬럼이름을 '직급'으로 출력하시오
-
+select concat(ename,'의 직급은', job, '입니다') 직급 from emp where ename = '김사랑' ;
 -- ########################
 -- where 사용법
 -- 
@@ -92,10 +103,21 @@
 -- =, > , >=, <, <=, !=
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
+
+select * from emp where 1=1;
+
+select * from emp where 1 = 2;
+
+select * from emp where ename = ename ;
+
+select * from emp where ename = deptno ;
+
 -- emp 테이블에서 sal이 500보다 크거나 같은 경우만 출력하시오
-  
+select * from emp where sal >=500 ;
+
 -- emp 테이블에서 deptno 가 10 인경우만 출력하시오.
- 
+select * from emp where deptno =10 ;
+
  
 -- 부정연산( != )
 -- deptno 가 10 이 아닌 사람만 출력하시오.
@@ -113,26 +135,37 @@
 -- and, or, not( !=, <> )
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
--- deptno 가 10 인 사람만 출력하시오
+-- emp 테이블에서 deptno 가 10 인 직원만 출력하시오
+select * from emp where deptno = 10;
+
+
+
 
 -- job이 과장인 사람만 출력하시오
-
+select * from emp where job = '과장' ;
 
 -- deptno 가 10  이고(and) job이 과장인 사람만 출력하시오. 교집합
-
+select * from emp where deptno=10 and job = '과장' ;
 
 -- deptno 가 10  이거나(or) job이 과장인 사람만 출력하시오. 합집합
+select * from emp where deptno=10 or job = '과장' ;
 
 
 
-
--- 문제. 산술연사자를 이용해서 
+-- 문제1. 산술연사자를 이용해서 
 -- sal 값이 400보다 크거나 같고 그리고(and) 
+ 
+
+
 -- sal 값이 500보다 작거나 같은 직원을 출력하시오. 5개
+select * from emp where sal<=500 and job = '과장' ;
 
 
--- 문제. 산술연사자를 이용해서 
+
+
+-- 문제2. 산술연사자를 이용해서 
 -- sal 값이 400보다 작거나 같고 또는(or) 
+
 -- sal 값이 500보다 크거나 같은 직원을 출력하시오. 16개
 
 
@@ -146,21 +179,23 @@
 -- sal 값이 500보다 작거나 같은 직원을 출력하시오
 
 -- 방법1. 산술 연산자를 이용하는 방법5개
+select * from emp where sal>=400 and sal <=500 ;
+
 
 -- 방법2. between A and B 를 이용하는 방법
-
+select * from emp where sal between 400 and 500 ; 
 
 
 -- 문제. 입사일(hiredate)이 2005/01/01 이전인 사람들만 출력하시오
-
+select * from emp where hiredate <'2005-01-01' ;
 
 
 -- 문제. 입사일(hiredate)이 2005/01/01 부터  
 -- 2012/12/31 까지 입사한 사람들만 출력하시오
 -- 방법1. 비교 연산자를 이용하는 경우
-
+select * from emp where '2005-01-01' <=hiredate and hiredate <= '2012-12-31' ;
 -- 방법2. between A and B 를 이용해서 
-
+select * from emp where hiredate between '2005-01-01' and '2012-12-31' ;
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
@@ -169,16 +204,17 @@
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
 -- 이름(ename)이 '이'로 시작하는 직원을 출력하시오. 4개
-
+select * from emp where ename LIKE '이%';
 -- 이름(ename)이 '이'로 끝나는 직원을 출력하시오. 0개
-
+select * from emp where ename LIKE '%이';
 -- 이름(ename)에 '이'가 들어가 있는 직원을 출력하시오. 4개
-
+select * from emp where ename LIKE '%이%';
 
 -- 문제. 이름(ename)에 '성'자가 들어가는 직원을 출력하시오. 3개
-
+select * from emp where ename LIKE '%성%';
 -- 문제. 이름(ename)에 '성'자가 들어가지 않는 직원을 출력하시오. 15개
-
+select * from emp where ename not LIKE '%성%';
+select * from emp where ename not LIKE '%인%';
 
 
 -- 와일드 카드 "_"를 사용하여 "안성기" 출력
@@ -204,10 +240,10 @@
 
 -- or 연산으로
 -- comm이 80 이거나 100 이거나 200인 사람만 출력하시오. 2개
-
+select * from emp where comm = 80 or comm = 100 or  comm = 200;
 -- in 연산으로 
 -- comm이 80 이거나 100 이거나 200인 사람만 출력하시오. 2개
-
+select * from emp where comm in (80, 100, 200);
 
 -- comm이 80 이 아니고 그리고 100 이 아니고 그리고 200 이 아닌 사람만 출력하시오. 1개
 
@@ -225,13 +261,13 @@
 -- is null
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- comm 값이  null 인 경우의 출력하시오. 14개
-
+select * from emp where comm is NULL;
 -- comm 값이  null 이 아닌 경우만 출력하시오
-
+select * from emp where comm is NOT NULL;
 
 
 -- ########################
--- 정렬
+-- 정렬 order by
 -- 오름차순 정렬 : asc
 -- 내림차순 정렬 : desc
 -- ########################
@@ -241,20 +277,20 @@
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
 -- sal 컬럼을 오름값순으로 정렬하시오
-
+select * from emp ORDER BY sal asc;
 -- 이름(ename)을 오름차순으로 출력하시오
-
+select * from emp ORDER BY ename asc;
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 -- 내림차순 정렬 : DESC : descending 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
 
 -- sal 컬럼을 내림값순으로 출력하시오
-
+select * from emp ORDER BY sal desc;
 
 -- 이름(ename)이 '이병헌'인 직원을 찾아서 
 -- sal 값을 기준으로 오름차순 정렬하시오.
-
+select * from emp where ename LIKE '%이병헌%'ORDER BY sal asc;
 
 
 -- @@@@@@@@@@@@@@@@@@@@@@@@
@@ -263,13 +299,12 @@
 
 -- 이름(ename)은 오름차순으로 정렬하고 
 -- 입사일(hiredate)은 내림차순으로 정렬하시오     
-
+select * from emp  ORDER BY ename asc ,hiredate desc ;
 
 
 -- 문제. 급여(sal)를 많이 받는 순으로 출력하되 급여가 같으면
 --       이름(ename)의 철자가 빠른 순으로 출력하시오.
-
-
+select * from emp ORDER BY sal desc, ename asc ;
 
 
 -- ########################

@@ -95,34 +95,73 @@ select 'abcdefghij', replace( 'abcdefghij', 'de', '  ');
 
 -- @@@@@@@@@@
 -- 날짜 관련 함수 
--- MySQL  : now()   , date_format(), date_add(), date_sub()
--- Oracle : sysdate, systimestamp
+-- MySQL  : now()   , curdate(,) curtime(), date_format(), date add, date sub()
+-- Oracle : sysdate, systimestamp, to date()
 -- @@@@@@@@@@
 
 -- 현재 날짜와 시간을 출력하시오
+select now();
+select now()from emp;empno from emp;
+
+
 
 -- 현재 날짜를 출력하시오
+select curdate();
 
 -- 현재  시간을 출력하시오
+select curtime();
 
 -- 현재 날짜를 'YYYY/MM/DD' 포맷으로 출력하시오
+select now(), date_format( now(),'%Y');
+select now(), date_format( now(),'%y');
+select now(), date_format( now(),'%M');
+select now(), date_format( now(),'%m');
+select now(), date_format( now(),'%D');
+select now(), date_format( now(),'%d');
+
+
+
 
 -- 현재 날짜를 'YYYY-MM-DD' 포맷으로 출력하시오
+select now(), date_format( now(), '%Y/%m/%d');
 
+-- 현재 emp테이블에서 이름(ename)과 입사일(hiredate)를 출력하시오
+-- 입사일(hiredate)은 '17/10/16' '연도2자리/월/일'"형태로 출력하시오
+select dname, date_format(hiredate,'%y/%m/%d') from emp;
 
+-- 현재 emp테이블에서 입사일(hiredate)를 date_format을 사용하여 연도4자리_월_일 포맷으로 출력하시오
+select hiredate date_format(hirdate, '%Y_%m_%d') from emp;
 
--- 현재 시간를 'hh:mm:ss' 포맷으로 출력하시오
+-- 입사일(hiredate)은 'hh:mm:ss' 포맷으로 출력하시오
+select now(), date_format(now(), '%H');
+select now(), date_format(now(), '%h');
+select now(), date_format(now(), '%i');
+select now(), date_format(now(), '%s');
+select now(), date_format(now(), '%T');
 
+select now(), curtime(), date_format( now(), '%H:%i:%s'), date_format(curtime(), '%H:%i:%s') ;
+select now(), date_format( now(), '$T');
 
 -- 이번달의 첫째날 요일 구하기
+select '2017-10-01', date_format('2017_1-_01', '%a');
 
 -- 오늘은 이번달의 몇 주차인가?
+select now(), dayofweek( now() );
+-- 지금부터 '2014-01-01'까지의 개월 수 구하기 timestampdiff()
+select now(), '2014_01_01', timestampdiff( MONTH, now(), '2014_01_01');
+-- 지금부터 '2014-01-01'까지의 년수수 구하기 timestampdiff()
+select now(), '2014_01_01', timestampdiff( YEAR, now(), '2014_01_01');
 
--- 지금부터 '2014-01-01'까지의 개월 수 구하기
 
 -- 오늘 날짜에 6개월 추가하기
+select now(), date_add( now(), INTERVAL 6 MONTH );
 
--- 오늘 날짜에 -6개월 추가하기
+
+-- 오늘 날짜에 -6개월 계산하시오
+select now(), date_add( now(), INTERVAL -6 MONTH );
+
+-- 오늘날짜에 17년 후를 계산하시오.
+select now(), date_add( now(), INTERVAL 17 MONTH );
 
 -- 지금부터 가장 가까운 수요일은 몇일후 인가?
 
@@ -154,9 +193,23 @@ select 'abcdefghij', replace( 'abcdefghij', 'de', '  ');
 
 -- 문자를 날짜로 변환. 변환 후 DATE 포맷이 된다.
 
+
 -- 문자를 숫자로 변환
+select '120'     , convert( '_120' ,SIGNED );
+select '120'     , convert( '_120' ,UNSIGNED);
+select '120.124' , convert( '_120.124',DECIMAL( 10,0));
+
+
 
 -- 문자를 숫자로 변환시 숫자의 포맷 지정하기
+select '20,000,000.73797874857848'
+       , replace( '20,000,000.73797874857848',',','');
+       , convert(replace ( '20,000,000.73797874857848',',',''), DECIMAL(22,14));
+
+set @aaa ;= '20,000,000.7379787857848';
+set @bbb ;=replace( '20,000,000.7379787857848',',','');
+select @ccc ;= length(@bbb)-1;
+select @aaa,@bbb,@ccc,convert (@bbb,DECIMAL(22,14);
 
 
 -- 문자를 숫자로 변환: 20,000,000.73797874857848 을 숫자로 바꾸시오.
@@ -173,8 +226,9 @@ select 'abcdefghij', replace( 'abcdefghij', 'de', '  ');
 -- @@@@@@@@@@
 
 -- ifnull 사용법
-
-
+select ifnull (null,1);
+select ifnull ( 0  ,1);
+select ifnull ('0', 1);
 
 -- @@@@@@@@@@
 -- 선택 함수 : CASE 문. 자바의 연속if 와 유사
@@ -182,17 +236,51 @@ select 'abcdefghij', replace( 'abcdefghij', 'de', '  ');
 -- @@@@@@@@@@ 
 
 
--- CASE WHEN ELSE
- 
+-- CASE WHEN THEN ELSE를 사용하여 부서명을 출력하시오.
+--deptno = 10 이면 경리부
+--deptno = 20 이면 인사과
+--deptno = 30 이면 영업부
+--deptno = 40 이면 전산부
+--아니면 나머지부
+select ename, deptno,CASE WHEN deptno=10 THEN '경리부'
+                          WHEN deptno=20 THEN '인사과'
+                          WHEN deptno=30 THEN '영업부'
+                          WHEN deptno=40 THEN '전산부'
+                          ELSE '나머지부'
+                     END
+from emp;
 
+-- 지금부터 가장 가까운 수요일은 몇 일후 인가? case when then else
+-- if(dayofweek( now() ) .=4) {
+-- e - dayofweek( now() )
+-- }
+-- else {
+--  4 + (7-dayofweek( now() ) )
+-- }
+
+
+--수요일 이전인 경우
+select now()
+     , dayofweek( now() )
+	  , CASE WHEN dayofweek( now() ) <= 4 THEN 4 - dayofweek( now() )
+	        ELSE 4 + (7-dayofweek( now() ) ) 
+	END as '일수';
+ 
+ 
+--수요일 초과인 경우 
+select now(), dayofweek( now() ), 4 + (7-dayofweek( now()));  
 
 
 
 -- @@@@@@@@@@@@@@
 -- 미션
 -- @@@@@@@@@@@@@@
--- 미션 1. substring 함수를 사용하여 9월에 입사한 사원을 출력하기. 1개
 
+
+-- 오늘 날짜에서 월을 추출하려면
+-- 입사일에서 월을 추출하려면
+-- 미션 1. substring 함수를 사용하여 9월에 입사한 사원을 출력하기. 1개
+select * from emp where substring (hiredate, 6, 2) = '09';
 
 -- 미션 2. SUBSTR 함수를 이용하여 2003년도에 입사한 사원을 검색하기. 2개
 
@@ -207,6 +295,13 @@ select 'abcdefghij', replace( 'abcdefghij', 'de', '  ');
 -- '과장'인 사원은 10% 인상
 -- '대리'인 사원은 15% 인상 
 -- '사원'인 사원은 20% 인상
+
+select   deptno, job, sum(sal)
+from emp
+where
+group by job('부장');
+having
+order by
 
 
 -- 미션 6. 입사일을 연도는 2자리(YY), 

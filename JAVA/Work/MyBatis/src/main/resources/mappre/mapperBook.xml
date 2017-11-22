@@ -20,7 +20,17 @@
     </select>
 
     <select id="selectEqual" parameterType="ModelBook" resultType="ModelBook">
-        select * from book where bookname like #{ bookname }
+        select * from book 
+        where 1=1 
+        <if test= "bookname!=null and bookname!='' "  > and bookname = #{ bookname }</if>
+        <if test= "bookid!=null"                      > and bookid   = #{ bookid    }</if>
+        <if test= "publisher!=null and publisher!=''" > and publisher   = #{ publisher    }</if>
+        <if test= "price!=null"                       > and price   = #{ price    }</if>
+        
+        and bookid = #{ bookname }
+        and publisher = #{ publisher }
+        and price = #{ price }
+        
     </select>
     
     <insert id="insertBook" parameterType="ModelBook">
